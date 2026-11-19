@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2021",
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "baseUrl": "..",
+    "paths": { "@/*": ["src/*"] },
+    "rootDir": "../src",
+    "outDir": "../.search-build",
+    "types": []
+  },
+  "include": ["../src/content/**/*.ts", "../src/types/**/*.ts"]
+}
