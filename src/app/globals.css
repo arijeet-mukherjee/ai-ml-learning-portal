@@ -1,0 +1,285 @@
+@import "tailwindcss";
+
+/* ===========================================================================
+   Design tokens.
+   Dark is the default. Light is a real theme, not an afterthought: every
+   foreground/background pair below clears WCAG AA for body text.
+   =========================================================================== */
+:root {
+  --ink: #06070d;
+  --ink-2: #0a0c14;
+  --panel: #0e111b;
+  --panel-2: #141828;
+  --line: #1e2335;
+  --line-strong: #2b3147;
+  --text: #e8ecf8;
+  --muted: #9aa3bd;
+  --muted-2: #787f9b;   /* 5.08:1 on --ink */
+
+  --accent: #7c8cff;
+  --accent-ink: #0a0c14;
+  --accent-soft: rgba(124, 140, 255, 0.14);
+  --accent-2: #3fd9e4;
+  --accent-2-soft: rgba(63, 217, 228, 0.13);
+
+  --warn: #f3b03c;
+  --warn-soft: rgba(243, 176, 60, 0.12);
+  --danger: #ff7089;
+  --danger-soft: rgba(255, 112, 137, 0.12);
+  --good: #3ed69f;
+  --good-soft: rgba(62, 214, 159, 0.12);
+  --violet: #b47cff;
+  --violet-soft: rgba(180, 124, 255, 0.12);
+
+  --radius: 14px;
+  --radius-sm: 9px;
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-2: 0 18px 50px -12px rgba(0, 0, 0, 0.75);
+  --glow: 0 0 0 1px var(--accent-soft), 0 10px 40px -12px rgba(124, 140, 255, 0.5);
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 140ms;
+  --dur: 220ms;
+  --measure: 70ch;
+}
+
+[data-theme="light"] {
+  --ink: #f7f8fc;
+  --ink-2: #eef1f8;
+  --panel: #ffffff;
+  --panel-2: #f3f5fb;
+  --line: #dde2ee;
+  --line-strong: #c3cadd;
+  --text: #121626;
+  --muted: #555e78;
+  --muted-2: #636b85;   /* 4.98:1 on --ink */
+
+  --accent: #4452d8;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(68, 82, 216, 0.1);
+  --accent-2: #0c757f;  /* 5.12:1 on --ink */
+  --accent-2-soft: rgba(12, 117, 127, 0.1);
+
+  --warn: #9a6500;
+  --warn-soft: rgba(154, 101, 0, 0.1);
+  --danger: #c0304a;
+  --danger-soft: rgba(192, 48, 74, 0.09);
+  --good: #0c7a56;
+  --good-soft: rgba(12, 122, 86, 0.1);
+  --violet: #7739c4;
+  --violet-soft: rgba(119, 57, 196, 0.1);
+
+  --shadow-1: 0 1px 2px rgba(18, 22, 38, 0.08);
+  --shadow-2: 0 18px 50px -16px rgba(18, 22, 38, 0.25);
+  --glow: 0 0 0 1px var(--accent-soft), 0 10px 36px -14px rgba(68, 82, 216, 0.4);
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-panel: var(--panel);
+  --color-panel-2: var(--panel-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-muted-2: var(--muted-2);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-warn: var(--warn);
+  --color-danger: var(--danger);
+  --color-good: var(--good);
+  --color-violet: var(--violet);
+  --font-sans: var(--font-sans-stack);
+  --font-mono: var(--font-mono-stack);
+  --radius-card: var(--radius);
+}
+
+/* ===========================================================================
+   Base
+   =========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* Smooth for in-page anchor jumps. Next 16 no longer forces this to `auto`
+     during navigation, hence data-scroll-behavior="smooth" on <html>. */
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+  background: var(--ink);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--text);
+  font-family: var(--font-sans-stack);
+  font-size: 16.5px;
+  line-height: 1.72;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+a {
+  color: inherit;
+}
+
+/* Thin, unobtrusive scrollbars that follow the theme. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 99px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+/* ===========================================================================
+   Reusable surfaces
+   =========================================================================== */
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.hairline {
+  border-color: var(--line);
+}
+
+/* A thin gradient rule used to separate major blocks. */
+.rule {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--line-strong) 20%,
+    var(--line-strong) 80%,
+    transparent
+  );
+}
+
+.glow-ring {
+  box-shadow: var(--glow);
+}
+
+/* ===========================================================================
+   Content typography — applied by ContentRenderer via .content
+   =========================================================================== */
+.content {
+  max-width: var(--measure);
+}
+
+.content p {
+  margin: 0 0 1.05em;
+}
+
+.content code {
+  font-family: var(--font-mono-stack);
+  font-size: 0.875em;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.1em 0.38em;
+  white-space: nowrap;
+}
+
+.content b,
+.content strong {
+  color: var(--text);
+  font-weight: 650;
+}
+
+.content a:not(.btn) {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--accent-soft);
+}
+.content a:not(.btn):hover {
+  text-decoration-color: var(--accent);
+}
+
+.content small {
+  display: block;
+  margin-top: 0.4em;
+  color: var(--muted);
+  font-size: 0.875em;
+  line-height: 1.6;
+}
+
+/* Theme-toggle icons: rendered together, revealed by the active theme. */
+.dark-only {
+  display: none;
+}
+:root:not([data-theme="light"]) .dark-only {
+  display: block;
+}
+:root:not([data-theme="light"]) .light-only {
+  display: none;
+}
+
+/* Inline highlight — the notebook's <span class="mark">. */
+.mark {
+  background: var(--warn-soft);
+  border-bottom: 1px solid var(--warn);
+  padding: 0.05em 0.25em;
+  border-radius: 4px;
+  color: var(--text);
+}
+
+/* ===========================================================================
+   Motion
+   =========================================================================== */
+@keyframes drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, -18px, 0);
+  }
+}
+
+@keyframes sweep {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 200% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
